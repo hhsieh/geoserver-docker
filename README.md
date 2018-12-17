@@ -1,33 +1,30 @@
 # geoserver-docker
 
 [GeoServer](http://geoserver.org) is an open source server for sharing geospatial data.
-This is a docker image that eases setting up a GeoServer running specifically for [GeoNode](https://github.com/GeoNode/geoserver-geonode-ext) with an additional separated data directory.
+This is a modified docker image based on
+https://github.com/GeoNode/geoserver-docker and modified to work with a remote
+JNDI ssl connection
 
 The image is based on the official Tomcat 9 image
 
-## Installation
-
-This image is available as a [trusted build on the docker hub](https://registry.hub.docker.com/r/geonode/geoserver/), and is the recommended method of installation.
-Simple pull the image from the docker hub.
+## Quick start
 
 ```bash
-$ docker pull geonode/geoserver
+$ git clone https://github.com/kf8a/geoserver-docker.git
+$ cd geoserver-docker
+$ cp context.xml.example context.xml
 ```
 
-Alternatively you can build the image locally
+Customize context.xml
 
 ```bash
-$ git clone https://github.com/geonode/geoserver-docker.git
-$ cd geoserver-docker
 $ docker build -t "geonode/geoserver" .
 ```
 
-## Quick start
-
-You can quick start the image using the command line
+Build the data-docker image as in https://github.com/GeoNode/data-docker
 
 ```bash
-$ docker run --name "geoserver" -v /var/run/docker.sock:/var/run/docker.sock -d -p 8080:8080 geonode/geoserver
+$ docker-compose up
 ```
 
 Point your browser to `http://localhost:8080/geoserver` and login using GeoServer's default username and password:
@@ -49,7 +46,7 @@ There are mainly two different versions of this image which are useful for runni
 - [geonode/geoserver:2.13.x](https://hub.docker.com/r/geonode/geoserver/builds/btmjctbuvrjfnnrxrs4wyrs/)
 - [geonode/geoserver:2.14.x](https://hub.docker.com/r/geonode/geoserver/builds/bj53pi8he8uksz6ggvrs3wc/)
 
-You can declare what version to use along with the data directory tag which corresponds to the same version.  
+You can declare what version to use along with the data directory tag which corresponds to the same version.
 
 ## Configuration
 

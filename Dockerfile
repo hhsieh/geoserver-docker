@@ -73,9 +73,10 @@ COPY get_dockerhost_ip.py /usr/local/tomcat/tmp
 COPY get_nginxhost_ip.py /usr/local/tomcat/tmp
 COPY entrypoint.sh /usr/local/tomcat/tmp
 
+
 RUN apt-get update \
     && apt-get -y upgrade \
-    && apt-get install -y python python-pip python-dev \
+    && apt-get install -y python python-pip python-dev libpostgresql-jdbc-java \
     && chmod +x /usr/local/tomcat/tmp/set_geoserver_auth.sh \
     && chmod +x /usr/local/tomcat/tmp/setup_auth.sh \
     && chmod +x /usr/local/tomcat/tmp/entrypoint.sh \
@@ -84,6 +85,9 @@ RUN apt-get update \
     && chmod +x /usr/local/tomcat/tmp/get_dockerhost_ip.py \
     && chmod +x /usr/local/tomcat/tmp/get_nginxhost_ip.py
 
+COPY context.xml /usr/local/tomcat/conf/
+
 ENV JAVA_OPTS="-Djava.awt.headless=true -XX:MaxPermSize=512m -XX:PermSize=256m -Xms512m -Xmx2048m -XX:+UseConcMarkSweepGC -XX:+UseParNewGC -XX:ParallelGCThreads=4 -Dfile.encoding=UTF8 -Duser.timezone=GMT -Djavax.servlet.request.encoding=UTF-8 -Djavax.servlet.response.encoding=UTF-8 -Duser.timezone=GMT -Dorg.geotools.shapefile.datetime=true"
+
 
 CMD ["/usr/local/tomcat/tmp/entrypoint.sh"]
